@@ -1,4 +1,5 @@
 from .satellite import Satellite
+import numpy as np
 
 class Mechanics():
     def __init__(self, satellite : Satellite, dt : float):
@@ -28,6 +29,11 @@ class Mechanics():
     def update(self, torque):
         ang_velocity = self.satellite.ang_velocity + self.delta_velocity(torque)
         ang_position = self.satellite.ang_position + self.delta_position(ang_velocity)
+
+        if ang_position > 2*np.pi:
+            ang_position = ang_position - 2*np.pi
+        elif ang_position < 0:
+            ang_position = ang_position + 2*np.pi
         
         self.satellite.ang_velocity = ang_velocity
         self.satellite.ang_position = ang_position
